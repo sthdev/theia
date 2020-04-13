@@ -66,6 +66,9 @@ EXPOSE 3000
 ENV SHELL=/bin/bash \
     THEIA_DEFAULT_PLUGINS=local-dir:${THEIA_HOME}/plugins
 
+# Copy demo app
+COPY --chown=theia:theia demo ${WORKSPACE_DIR}/demo
+
 # ENTRYPOINT cannot resolve arguments. Copy it to an environment variable.
 ENV WS_DIR=${WORKSPACE_DIR}
 ENTRYPOINT yarn theia start $WS_DIR --hostname=0.0.0.0
