@@ -25,14 +25,23 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
 
 ENV MAVEN_HOME /usr/share/maven
 
+# Install Node
+ENV NODE_VERSION 10.20.0
+RUN curl -fsSLO --compressed "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz" \
+ && tar -xJf "node-v${NODE_VERSION}-linux-x64.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
+ && rm "node-v${NODE_VERSION}-linux-x64.tar.xz" \
+ && ln -s /usr/local/bin/node /usr/local/bin/nodejs \
+ # smoke tests
+ && node --version \
+ && npm --version
+
+# Install yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && apt-get install -y yarn && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /home/theia
 USER theia
 
-# Copy demo app
-COPY --chown=theia:theia demo ./demo
-
-# build demo app
-WORKDIR /home/theia/demo
-RUN mvn clean install
-
-ENTRYPOINT [ "mvn", "spring-boot:run" ]
+ENTRYPOINT [ "yarn", "--version" ]
