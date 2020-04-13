@@ -11,6 +11,13 @@ ARG MAVEN_BASE_URL=https://downloads.apache.org/maven/maven-3/$MAVEN_VERSION/bin
 # update system
 RUN apt-get update
 
+# Install essential build and dev tools
+RUN apt-get install -y build-essential git && \
+    # test
+    make --version && \
+    git --version
+
+
 # Install Maven
 RUN mkdir -p /usr/share/maven /usr/share/maven/ref && \
     curl -fsSL -o /tmp/apache-maven.tar.gz $MAVEN_BASE_URL/apache-maven-$MAVEN_VERSION-bin.tar.gz && \
@@ -22,11 +29,6 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref && \
     mvn --version
 
 ENV MAVEN_HOME /usr/share/maven
-
-# Install essential build tools
-RUN apt-get install -y build-essential && \
-    # test
-    make --version
 
 # Install Node
 ENV NODE_VERSION 10.20.0
