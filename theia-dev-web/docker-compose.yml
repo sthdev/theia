@@ -4,9 +4,13 @@ services:
     theia:
         build: 
             context: .
-        image: simple
+        image: theia
         ports: 
             - 3000:3000
         volumes: 
             - ~/.ssh:/home/theia/.ssh/:ro
             - ~/.gitconfig:/home/theia/.gitconfig:ro
+            - workspace:/home/workspace
+
+volumes:
+    workspace:
