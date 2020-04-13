@@ -1,0 +1,12 @@
+version: '3.7'
+
+services: 
+    theia:
+        build: 
+            context: .
+        image: simple
+        ports: 
+            - 3000:3000
+        volumes: 
+            - ~/.ssh:/home/theia/.ssh/:ro
+            - ~/.gitconfig:/home/theia/.gitconfig:ro

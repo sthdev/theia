@@ -4,6 +4,8 @@ ARG THEIA_USER=theia
 ARG THEIA_HOME=/home/$THEIA_USER
 ARG WORKSPACE_DIR=/home/workspace
 
+ARG HOST_SSH_DIR=%userprofile%/.ssh
+
 ARG MAVEN_VERSION=3.6.3
 ARG MAVEN_SHA=c35a1803a6e70a126e80b2b3ae33eed961f83ed74d18fcd16909b2d44d7dada3203f1ffe726c17ef8dcca2dcaa9fca676987befeadc9b9f759967a8cb77181c0
 ARG MAVEN_BASE_URL=https://downloads.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/
@@ -67,9 +69,6 @@ EXPOSE 3000
 
 ENV SHELL=/bin/bash \
     THEIA_DEFAULT_PLUGINS=local-dir:${THEIA_HOME}/plugins
-
-# Copy demo app
-COPY --chown=theia:theia demo ${WORKSPACE_DIR}/demo
 
 # ENTRYPOINT cannot resolve arguments. Copy it to an environment variable.
 ENV WS_DIR=${WORKSPACE_DIR}
