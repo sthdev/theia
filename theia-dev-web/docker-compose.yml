@@ -7,10 +7,13 @@ services:
         image: theia
         ports: 
             - 3000:3000
+            - 8080:8080
         volumes: 
             - ~/.ssh:/home/theia/.ssh/:ro
             - ~/.gitconfig:/home/theia/.gitconfig:ro
-            - workspace:/home/workspace
+            - ~/.m2:/home/theia/.m2
+            - ./workspace:/home/workspace
+            - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
     workspace:
